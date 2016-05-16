@@ -2,28 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Group;
 use App\Http\Requests;
 use App\Subject;
 use App\UserGroup;
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
 
-class MatchController extends Controller
-{
+class MatchController extends Controller{
     public function run(Request $request){
         $view = View::make("match");
         $subjectName = $request->get("subjectName");
         /**
-         * base on subject name, what user need
+         * base on subject name, which user need
          * to find out mentor, query databse, show
          * 1. Existing Group
          * 2. Ask him to create new one
          * (if he doesn't want to join any group)
          */
-        $subjects = Subject::with("need.group")->where("name", $subjectName)->get();
+        /** @var object/null $subject
+         * if has subject > need > group
+         * if not, create new one
+         */
+        /**
+         * subject is unique
+         */
+        $subject = Subject::with("need.group")->where("name", $subjectName)->first();
+        //NORMAL
+        //        if($subject){
+        //            $needs = $subject->need;
+        //            foreach($needs as $need){
+        //
+        //            }
+        //        }
         /**
          * omit groups which this user is a leader/joined
          */
@@ -37,12 +49,21 @@ class MatchController extends Controller
         //to figure out group user HAS JOINED
         /**
          * get out groups, which user joined
+         * @var array $userGroups
          */
         $userGroups = UserGroup::with("group")->where("user_id", Auth::user()->id)->get();
 
-        $view->with("subjects", $subjects);
-        $view->with("userGroups", $userGroups);
-        $view->with("subjectName", $subjectName);
+        /**
+         * handle data for view
+         */
+
+                $view->with("subject", $subject);
+                $view->with("userGroups", $userGroups);
+                $view->with("subjectName", $subjectName);
+        //        $view->compact($subject);
+        //        $view->compact($userGroups);
+        //        $view->compact($subjectName);
+
         return $view;
     }
 

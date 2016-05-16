@@ -2,25 +2,26 @@
 @section('content')
     <div class="container">
         <div class="row">
-            {{--display group--}}
-            <p>
             <h1>existing group</h1>
             <ul class="list-group">
-                {{$subjects}}
+                {{$subject}}
                 {{$userGroups}}
                 {{$subjectName}}
-                <?php foreach($subjects as $subject){
-                    $need = $subject->need;
-                    $group = $need->group;
-                    $joined = false;
-                    foreach($userGroups as $userGroup){
-                        $joinedGroup = $userGroup->group;
-                        if($group->id === $joinedGroup->id){
-                            $joined = true;
-                        }
-                    }
-                   
-                } ?>
+                {{--!subject > need (subject) > group--}}
+                {{--if subject > need > group--}}
+                {{--@if($subject)--}}
+                    {{--$needs = $subjects--}}
+                    {{--<li>--}}
+                        {{--<p>groupId: {{$group->id}}</p>--}}
+                        {{--<p>subjectName: {{$subject->name}}</p>--}}
+                        {{--<p>needDescription: {{$need->description}}</p>--}}
+                        {{--<form method="POST" action="/group/join">--}}
+                            {{--{{csrf_field()}}--}}
+                            {{--<input type="hidden" name="groupID" value="{{$group->id}}">--}}
+                            {{--<button>joinGroup</button>--}}
+                        {{--</form>--}}
+                    {{--</li>--}}
+                {{--@endif--}}
             </ul>
             <h1>new group</h1>
             <form method="POST" action="/group/add">

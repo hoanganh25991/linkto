@@ -387,18 +387,9 @@
                     <div class="profile-nav col-md-3">
                         <div class="panel">
                             <div class="user-heading">
+                                {{$user}}
                                 <a href="#" onclick="return false;">
-                                    <?php $src = "https://cdn.evbuc.com/eventlogos/110757059/avatardefault200x200.png"; ?>
-                                    @if(isset($meta))
-                                        {{--{{$meta}}--}}
-                                        <?php $src = $meta->avatar; ?>
-                                    @endif
-                                    <img src="{{$src}}" alt="">
                                 </a>
-                                @if(isset($user))
-                                    <h1>{{$user->name}}</h1>
-                                    <p>{{$user->email}}</p>
-                                @endif
                             </div>
 
                             <ul class="nav nav-pills nav-stacked">
@@ -418,7 +409,8 @@
                                     <input placeholder="what subject you want to learn?" name="subjectName" type="text"
                                            class="form-control input-lg">
                                 </form>
-                            </footer>p
+                            </footer>
+                            p
                         </div>
                         <div class="panel">
                             <div class="bio-graph-heading">new feeds</div>
@@ -439,23 +431,27 @@
                             <div class="panel-body bio-graph-info">
                                 <div class="row">
                                     <ul class="list-group">
-                                        <?php foreach($userGroups as $userGroup){
-                                        $group = $userGroup->group;
-                                        $need = $group->need;
-                                        $subject = $need->subject;?>
-                                        <li class="list-group-item">
-                                            <div>
-                                                <p>group id: {{$group->id}}</p>
-                                                <p>subject: {{$subject->name}}</p>
-                                                <p>description: {{$need->description}}</p>
-                                                <form method="POST" action="/group/view">
-                                                    {{csrf_field()}}
-                                                    <input type="hidden" name="groupId" value="{{$group->id}}">
-                                                    <input type="submit" name="viewGroup" value="view" class="btn btn-default">
-                                                </form>
-                                            </div>
-                                        </li>
-                                        <?php }?>
+                                        @foreach($userGroups as $userGroup)
+                                            <?php $group = $userGroup->group; ?>
+                                            <?php $need = $group->need; ?>
+                                            <?php $subject = $need->subject; ?>
+                                            <li class="list-group-item">
+                                                @if($user->id === $userGroup->user_id)
+                                                    <h1>you are the group leader</h1>
+                                                @endif
+                                                <div>
+                                                    <p>group id: {{$group->id}}</p>
+                                                    <p>subject: {{$subject->name}}</p>
+                                                    <p>description: {{$need->description}}</p>
+                                                    <form method="POST" action="/group/view">
+                                                        {{csrf_field()}}
+                                                        <input type="hidden" name="groupId" value="{{$group->id}}">
+                                                        <input type="submit" name="viewGroup" value="view"
+                                                               class="btn btn-default">
+                                                    </form>
+                                                </div>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -466,6 +462,4 @@
         </div>
     </div>
 @endsection
-{{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">--}}
-{{--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">--}}
 

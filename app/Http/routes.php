@@ -50,9 +50,13 @@ Route::get('/home', 'HomeController@index');
         return view("welcome");
     });
 
-    Route::group(array("before" => "auth"), function(){
-        Route::get("dashboard", "DashboardController@index");
-//        Route::post("dashboard", "DashboardController@index");
+    Route::group(array("middleware" => "auth"), function(){
+        Route::get("dashboard", "DashboardController@run");
+        Route::post("dashboard", "MatchController@run");
+
+//        Route::get("group/add", "GroupController@add");
+        Route::post("group/add", "GroupController@add");
+        Route::post("group/view", "GroupController@add");
     });
 
     Route::get("need", "NeedController@index");
@@ -64,8 +68,7 @@ Route::get('/home', 'HomeController@index');
     Route::get("join-group", "MatchController@join");
     Route::post("join-group", "MatchController@join");
 
-    Route::get("group/add", "GroupController@add");
-    Route::post("group/add", "GroupController@add");
+
 
     Route::get("group/view", "GroupController@view");
     Route::post("group/view", "GroupController@view");

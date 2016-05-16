@@ -214,61 +214,52 @@
     </style>
     <div class="container">
         <div class="row">
+            <div>
+                <p>group id: {{$group->id}}</p>
+                <p>subject: {{$subject->name}}</p>
+                <p>description: {{$need->description}}</p>
+            </div>
             <ul class="list-group">
-                <?php $need = $group->need;
-                $subject = $need->subject;?>
-                <li class="list-group-item">
-                    <div>
-                        <p>group id: {{$group->id}}</p>
-                        <p>subject: {{$subject->name}}</p>
-                        <p>description: {{$need->description}}</p>
-                        {{--<form method="POST" action="/group/view">--}}
-                        {{--{{csrf_field()}}--}}
-                        {{--<input type="hidden" name="groupId" value="{{$group->id}}">--}}
-                        {{--<input type="submit" name="viewGroup" value="view" class="btn btn-default">--}}
-                        {{--</form>--}}
-
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="main-box clearfix">
-                                <div class="table-responsive">
-                                    <table class="table user-list">
-                                        <thead>
-                                        <tr>
-                                            <th><span>User</span></th>
-                                            <th><span>Created</span></th>
-                                            <th class="text-center"><span>Status</span></th>
-                                            <th><span>Email</span></th>
-                                            <th>&nbsp;</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php foreach($userGroups as $userGroup){
-                                        $user = $userGroup->user; ?>
-                                        <tr>
-                                            <td>
-                                                <img src="{{$user->meta->avatar}}" alt="">
-                                                <a href="#" class="user-link">{{$user->name}}</a>
-                                            </td>
-                                            <td>
-                                                {{$user->created_at}}
-                                            </td>
-                                            <td class="text-center">
-                                                status
-                                            </td>
-                                            <td>
-                                                <a href="#">{{$user->email}}</a>
-                                            </td>
-                                        </tr>
-                                        <?php } ?>
-                                        </tbody>
-                                    </table>
+                @foreach($userGroups as $userGroup)
+                    <?php $otherUser = $userGroup->user; ?>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="main-box clearfix">
+                                    <div class="table-responsive">
+                                        <table class="table user-list">
+                                            <thead>
+                                            <tr>
+                                                <th><span>User</span></th>
+                                                <th><span>Created</span></th>
+                                                <th class="text-center"><span>Status</span></th>
+                                                <th><span>Email</span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="user-link">{{$otherUser->name}}</a>
+                                                </td>
+                                                <td>
+                                                    {{$otherUser->created_at}}
+                                                </td>
+                                                <td class="text-center">
+                                                    status
+                                                </td>
+                                                <td>
+                                                    <a href="#">{{$otherUser->email}}</a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                @endforeach
             </ul>
         </div>
     </div>
