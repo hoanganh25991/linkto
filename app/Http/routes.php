@@ -11,13 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function(){
+//    return view('welcome');
+//});
 
 // Route::auth();
 
-Route::get('/home', 'HomeController@index');
+//Route::get('/home', 'HomeController@index');
 
 // Route::post("/subscribe", "MailingListController@subscribe");
 
@@ -44,35 +44,28 @@ Route::get('/home', 'HomeController@index');
 */
 
 
-//Route::group(array("middleware" => "web"), function(){
-    Route::auth();
-    Route::get("/", function(){
-        return view("welcome");
-    });
+Route::auth();
+Route::get("/", function(){
+    return view("welcome");
+});
 
-    Route::group(array("middleware" => "auth"), function(){
-        Route::get("dashboard", "DashboardController@run");
-        Route::post("dashboard", "MatchController@run");
+Route::group(array("middleware" => "auth"), function(){
+    Route::get("dashboard", "DashboardController@run");
+    Route::post("dashboard", "MatchController@run");
 
-//        Route::get("group/add", "GroupController@add");
-        Route::post("group/add", "GroupController@add");
-        Route::post("group/view", "GroupController@add");
-    });
-
-    Route::get("need", "NeedController@index");
-    Route::post("need", "NeedController@index");
-
-//    Route::get("match", "MatchController@index");
-    Route::post("match", "MatchController@run");
-
-    Route::get("join-group", "MatchController@join");
-    Route::post("join-group", "MatchController@join");
-
-
-
-    Route::get("group/view", "GroupController@view");
-    Route::post("group/view", "GroupController@view");
+    Route::post("group/add", "GroupController@add");
+    Route::post("group/view", "GroupController@add");
 
     Route::get("user/profile", "ProfileController@index");
-//});
+
+    Route::get("match", "MatchController@run");
+    Route::post("match", "MatchController@run");
+
+    Route::get("user/settings", "UserController@settings");
+
+});
+
+Route::get("need", "NeedController@index");
+Route::post("need", "NeedController@index");
+
 
